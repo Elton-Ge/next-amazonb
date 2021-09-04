@@ -38,7 +38,7 @@ function Layout({ title, description, children }) {
         fontWeight: 400,
         margin: "1rem 0",
       },
-      body: {
+      body1: {
         fontWeight: "normal",
       },
     },
@@ -82,7 +82,12 @@ function Layout({ title, description, children }) {
               <Link>
                 <Typography>
                   {cart.cartItems.length > 0 ? (
-                    <Badge color={"secondary"} badgeContent={cart.cartItems.length}>Cart</Badge>
+                    <Badge
+                      color={"secondary"}
+                      badgeContent={cart.cartItems.length}
+                    >
+                      Cart
+                    </Badge>
                   ) : (
                     "Cart"
                   )}

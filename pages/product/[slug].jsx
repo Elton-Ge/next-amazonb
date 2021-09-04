@@ -16,25 +16,30 @@ import db from "../../utils/db";
 import Product from "../../models/Product";
 import {StoreContext} from "../../utils/StoreProvider";
 import axios from "axios";
+import {useRouter} from "next/router";
 
 function ProductScreen(props) {
     const {state, dispatch} = useContext(StoreContext);
     const classes = useStyles();
-    // const router = useRouter(); //next/router
+    const router = useRouter(); //next/router
     // const { slug } = router.query;
     // const product = data.products.find((x) => x.slug === slug);
     const {product} = props;
-    console.log(product);
     if (!product) {
         return <div>Product Not Found</div>;
     }
     const addToCartHandler = async () => {
+        const existingItem = state.cart.cartItems.find(
+            (x) => x._id === product._id
+        );
+        const quantity = existingItem ? existingItem.quantity + 1 : 1;
         const {data} = await axios.get(`/api/products/${product._id}`);
-        if (data.countInStock <= 0) {
+        if (data.countInStock < quantity) {
             window.alert("Sorry, Product is out of stock");
             return;
         }
-        dispatch({type: "CART_ADD_ITEM", payload: {...product, quantity: 1}});
+        dispatch({type: "CART_ADD_ITEM", payload: {...product, quantity}});
+        router.push("/cart");
     };
     return (
         <Layout title={product.name} description={product.description}>
@@ -58,7 +63,10 @@ function ProductScreen(props) {
                 <Grid item md={3} xs={12}>
                     <List>
                         <ListItem>
-                            <Typography variant={"h1"}> {product.name}</Typography>
+                            <Typography component={"h1"} variant={"h1"}>
+                                {" "}
+                                {product.name}
+                            </Typography>
                         </ListItem>
                         <ListItem>
                             <Typography>Category: {product.category}</Typography>
