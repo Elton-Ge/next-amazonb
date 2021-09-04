@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
 import {
@@ -8,7 +8,9 @@ import {
   Container,
   createTheme,
   CssBaseline,
-  Link, Menu, MenuItem,
+  Link,
+  Menu,
+  MenuItem,
   Switch,
   ThemeProvider,
   Toolbar,
@@ -17,10 +19,10 @@ import {
 import Cookies from "js-cookie";
 import useStyles from "../utils/styles";
 import { StoreContext } from "../utils/StoreProvider";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 function Layout({ title, description, children }) {
-  const router =useRouter()
+  const router = useRouter();
   const { state, dispatch } = useContext(StoreContext);
   const { darkMode, cart, userInfo } = state;
   const classes = useStyles();
@@ -65,11 +67,11 @@ function Layout({ title, description, children }) {
   };
   const logoutHandler = () => {
     setAnchorEl(null);
-    dispatch({type:"USER_LOGOUT"})
-    Cookies.remove("userInfo")
-    Cookies.remove("cartItems")
-    router.push("/")
-  }
+    dispatch({ type: "USER_LOGOUT" });
+    Cookies.remove("userInfo");
+    Cookies.remove("cartItems");
+    router.push("/");
+  };
 
   return (
     <div>
@@ -113,22 +115,29 @@ function Layout({ title, description, children }) {
               </Link>
             </NextLink>
             {userInfo ? (
-                <>
-                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={loginClickHandler} className={classes.navbarButton}>
+              <>
+                <Button
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  onClick={loginClickHandler}
+                  className={classes.navbarButton}
+                >
                   {userInfo.name}
                 </Button>
                 <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={loginMenuCloseHandler}
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={loginMenuCloseHandler}
                 >
                   <MenuItem onClick={loginMenuCloseHandler}>Profile</MenuItem>
-                  <MenuItem onClick={loginMenuCloseHandler}>My account</MenuItem>
+                  <MenuItem onClick={loginMenuCloseHandler}>
+                    My account
+                  </MenuItem>
                   <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                 </Menu>
-                </>
+              </>
             ) : (
               <NextLink href={"/login"} passHref={true}>
                 <Link>

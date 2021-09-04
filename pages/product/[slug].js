@@ -130,30 +130,30 @@ function ProductScreen(props) {
 export default ProductScreen;
 
 export async function getStaticPaths() {
-  await db.connect();
-  const products = await Product.find({}).lean();
-  await db.disconnect();
-  const paths = products.map((product) => ({
-    params: { slug: product.slug },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
+    await db.connect();
+    const products = await Product.find({}).lean();
+    await db.disconnect();
+    const paths = products.map((product) => ({
+        params: {slug: product.slug},
+    }));
+    return {
+        paths,
+        fallback: false,
+    };
 }
 
 export async function getStaticProps(context) {
-  //getStaticProps   getServerSideProps
-  const { params } = context;
-  const { slug } = params;
-  await db.connect();
-  const product = await Product.findOne({ slug }).lean();
-  await db.disconnect();
-  return {
-    props: {
-      product: db.convertDocToObj(product),
-    },
-  };
+    //getStaticProps   getServerSideProps
+    const {params} = context;
+    const {slug} = params;
+    await db.connect();
+    const product = await Product.findOne({slug}).lean();
+    await db.disconnect();
+    return {
+        props: {
+            product: db.convertDocToObj(product),
+        },
+    };
 }
 
 /*
