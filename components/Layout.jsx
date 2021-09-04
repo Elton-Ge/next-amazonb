@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
+import React, {useContext, useState} from "react";
 import Head from "next/head";
 import NextLink from "next/link";
 import {
   AppBar,
   Badge,
+  Button,
   Container,
   createTheme,
   CssBaseline,
-  Link,
+  Link, Menu, MenuItem,
   Switch,
   ThemeProvider,
   Toolbar,
@@ -16,10 +17,12 @@ import {
 import Cookies from "js-cookie";
 import useStyles from "../utils/styles";
 import { StoreContext } from "../utils/StoreProvider";
+import {useRouter} from "next/router";
 
 function Layout({ title, description, children }) {
+  const router =useRouter()
   const { state, dispatch } = useContext(StoreContext);
-  const { darkMode, cart } = state;
+  const { darkMode, cart, userInfo } = state;
   const classes = useStyles();
   const handleChange = () => {
     dispatch({ type: darkMode ? "DARK_MODE_OFF" : "DARK_MODE_ON" });
@@ -52,6 +55,21 @@ function Layout({ title, description, children }) {
       },
     },
   });
+  const [anchorEl, setAnchorEl] = useState(null);
+  const loginClickHandler = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const loginMenuCloseHandler = () => {
+    setAnchorEl(null);
+  };
+  const logoutHandler = () => {
+    setAnchorEl(null);
+    dispatch({type:"USER_LOGOUT"})
+    Cookies.remove("userInfo")
+    Cookies.remove("cartItems")
+    router.push("/")
+  }
 
   return (
     <div>
@@ -94,11 +112,30 @@ function Layout({ title, description, children }) {
                 </Typography>
               </Link>
             </NextLink>
-            <NextLink href={"/login"} passHref={true}>
-              <Link>
-                <Typography>Login</Typography>
-              </Link>
-            </NextLink>
+            {userInfo ? (
+                <>
+                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={loginClickHandler} className={classes.navbarButton}>
+                  {userInfo.name}
+                </Button>
+                <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={loginMenuCloseHandler}
+                >
+                  <MenuItem onClick={loginMenuCloseHandler}>Profile</MenuItem>
+                  <MenuItem onClick={loginMenuCloseHandler}>My account</MenuItem>
+                  <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+                </Menu>
+                </>
+            ) : (
+              <NextLink href={"/login"} passHref={true}>
+                <Link>
+                  <Typography>Login</Typography>
+                </Link>
+              </NextLink>
+            )}
           </Toolbar>
         </AppBar>
         <Container className={classes.main}>{children}</Container>

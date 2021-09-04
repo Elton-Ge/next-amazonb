@@ -21,11 +21,17 @@ const useStyles = makeStyles({
   footer: {
     marginTop: 10,
     textAlign: "center",
-    // minHeight:"10vh"
   },
   section: {
     margin: "10px auto",
   },
+  form: {
+    maxWidth: 800,
+    margin: "0 auto",
+  },
+  navbarButton:{
+    color: '#fff'
+  }
 });
 
 export default useStyles;
