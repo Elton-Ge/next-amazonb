@@ -25,12 +25,12 @@ function PaymentScreen(props) {
   const {
     cart: { shippingAddress },
   } = state;
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState(
+    Cookies.get("paymentMethod") || ""
+  );
   useEffect(() => {
     if (!shippingAddress.address) {
       router.push("/shipping");
-    } else {
-      setPaymentMethod(Cookies.get("paymentMethod") || "");
     }
   }, []);
   const submitHandler = (e) => {

@@ -36,21 +36,21 @@ function ShippingScreen(props) {
             setValue("fullName", shippingAddress.fullName);
             setValue("address", shippingAddress.address);
             setValue("city", shippingAddress.city);
-            setValue("postcalCode", shippingAddress.postcalCode);
+            setValue("postalCode", shippingAddress.postalCode);
             setValue("country", shippingAddress.country);
         }
     }, [shippingAddress]);
     // if (userInfo){
     //   router.push("/")
     // }
-    const submitHandler = ({fullName, address, city, postcalCode, country}) => {
+    const submitHandler = ({fullName, address, city, postalCode, country}) => {
         dispatch({
             type: "SAVE_SHIPPING_ADDRESS",
-            payload: {fullName, address, city, postcalCode, country},
+            payload: {fullName, address, city, postalCode, country},
         });
         Cookies.set(
             "shippingAddress",
-            JSON.stringify({fullName, address, city, postcalCode, country})
+            JSON.stringify({fullName, address, city, postalCode, country})
         );
         router.push("/payment");
     };
@@ -146,7 +146,7 @@ function ShippingScreen(props) {
                     </ListItem>
                     <ListItem>
                         <Controller
-                            name={"postcalCode"}
+                            name={"postalCode"}
                             control={control}
                             defaultValue={""}
                             rules={{
@@ -157,12 +157,12 @@ function ShippingScreen(props) {
                                 <TextField
                                     fullWidth
                                     variant={"outlined"}
-                                    id="postcalCode"
+                                    id="postalCode"
                                     label="PostcalCode"
-                                    error={Boolean(errors.postcalCode)}
+                                    error={Boolean(errors.postalCode)}
                                     helperText={
-                                        errors.postcalCode
-                                            ? errors.postcalCode.type === "minLength"
+                                        errors.postalCode
+                                            ? errors.postalCode.type === "minLength"
                                                 ? "PostcalCode length is more than 1"
                                                 : "PostcalCode is required"
                                             : ""
