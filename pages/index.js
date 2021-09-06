@@ -16,8 +16,9 @@ import axios from "axios";
 import { useContext } from "react";
 import { StoreContext } from "../utils/StoreProvider";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 
-export default function Home(props) {
+ function Home(props) {
   const { products } = props;
   const { state, dispatch } = useContext(StoreContext);
   const router = useRouter();
@@ -86,3 +87,5 @@ export async function getStaticProps() {
     },
   };
 }
+export default Home
+// export default dynamic(() => Promise.resolve(Home), {ssr: false});

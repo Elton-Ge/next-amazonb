@@ -28,6 +28,7 @@ import {PayPalButtons, usePayPalScriptReducer} from "@paypal/react-paypal-js";
 import axios from "axios";
 import {useSnackbar} from "notistack";
 import {getError} from "../../utils/error";
+import dynamic from "next/dynamic";
 
 function OrderScreen({order}) {
     const [{isPending}, paypalDispatch] = usePayPalScriptReducer();
@@ -308,5 +309,5 @@ export async function getServerSideProps(context) {
     };
 }
 
-export default OrderScreen
-// export default dynamic(() => Promise.resolve(OrderScreen), {ssr: false});
+// export default OrderScreen
+export default dynamic(() => Promise.resolve(OrderScreen), {ssr: false});

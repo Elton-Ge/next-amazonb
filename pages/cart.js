@@ -151,3 +151,4 @@ function CartScreen(props) {
 }
 
 export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
+//fisrt place to use dynamic import with no SSR

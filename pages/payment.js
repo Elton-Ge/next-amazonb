@@ -16,6 +16,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
+import dynamic from "next/dynamic";
 
 function PaymentScreen(props) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -102,4 +103,6 @@ function PaymentScreen(props) {
   );
 }
 
-export default PaymentScreen;
+// export default PaymentScreen;
+export default dynamic(() => Promise.resolve(PaymentScreen), {ssr: false});
+
