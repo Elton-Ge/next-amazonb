@@ -61,16 +61,15 @@ function Layout({ title, description, children }) {
   const loginClickHandler = (event) => {
     setAnchorEl(event.currentTarget);
   };
- const loginMenuCloseHandler = () =>{
-   setAnchorEl(null);
- }
-  const menuRedirectHandler = (e,redirect) => {
+  const loginMenuCloseHandler = () => {
     setAnchorEl(null);
-    if (redirect){
-      router.push(redirect)
+  };
+  const menuRedirectHandler = (e, redirect) => {
+    setAnchorEl(null);
+    if (redirect) {
+      router.push(redirect);
     }
   };
-
 
   const logoutHandler = () => {
     setAnchorEl(null);
@@ -138,10 +137,23 @@ function Layout({ title, description, children }) {
                   open={Boolean(anchorEl)}
                   onClose={loginMenuCloseHandler}
                 >
-                  <MenuItem onClick={(e)=>menuRedirectHandler(e,"/profile")}>Profile</MenuItem>
-                  <MenuItem onClick={(e)=>menuRedirectHandler(e,"/order-history")}>
+                  <MenuItem onClick={(e) => menuRedirectHandler(e, "/profile")}>
+                    Profile
+                  </MenuItem>
+                  <MenuItem
+                    onClick={(e) => menuRedirectHandler(e, "/order-history")}
+                  >
                     Order History
                   </MenuItem>
+                  {userInfo.isAdmin && (
+                    <MenuItem
+                      onClick={(e) =>
+                        menuRedirectHandler(e, "/admin/dashboard")
+                      }
+                    >
+                      Admin Dashboard
+                    </MenuItem>
+                  )}
                   <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                 </Menu>
               </>
