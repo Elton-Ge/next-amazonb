@@ -13,6 +13,7 @@ import {useRouter} from "next/router";
 import Cookies from "js-cookie";
 import {Controller, useForm} from "react-hook-form";
 import CheckoutWizard from "../components/CheckoutWizard";
+import dynamic from "next/dynamic";
 
 function ShippingScreen(props) {
     const {
@@ -217,5 +218,5 @@ function ShippingScreen(props) {
     );
 }
 
-export default ShippingScreen;
-// export default dynamic(() => Promise.resolve(ShippingScreen), {ssr: false});
+// export default ShippingScreen;
+export default dynamic(() => Promise.resolve(ShippingScreen), {ssr: false});

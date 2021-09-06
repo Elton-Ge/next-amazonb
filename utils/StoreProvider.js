@@ -57,10 +57,51 @@ const reducer = (state, action) => {
         ...state,
         cart: { ...state.cart, paymentMethod: action.payload },
       };
+    case "PAY_REQUEST":
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loadingPay: true,
+        },
+      };
+    case "PAY_SUCCESS":
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loadingPay: false,
+          successPay: true,
+          order: action.payload,
+        },
+      };
+    case "PAY_FAIL":
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loadingPay: false,
+          error: action.payload,
+        },
+      };
+    case "PAY_RESET":
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loadingPay: false,
+          successPay:false,
+          error: '',
+        },
+      };
     case "USER_LOGIN":
       return { ...state, userInfo: action.payload };
     case "USER_LOGOUT":
-      return { ...state, userInfo: null, cart: { cartItems: [] } };
+      return {
+        ...state,
+        userInfo: null,
+        cart: { cartItems: [], shippingAddress: {}, paymentMethod: "" },
+      };
     default:
       return state;
   }

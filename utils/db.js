@@ -43,5 +43,21 @@ function convertDocToObj(doc) {
   return doc;
 }
 
-const db = { connect, disconnect, convertDocToObj };
+function convertOrderDocToObj(orderDoc) {
+  orderDoc._id = orderDoc._id.toString();
+  orderDoc.user = orderDoc.user.toString();
+  orderDoc.createdAt = orderDoc.createdAt.toString();
+  orderDoc.updatedAt = orderDoc.updatedAt.toString();
+  orderDoc.paidAt = orderDoc.paidAt ? JSON.stringify(orderDoc.paidAt) : null;
+  orderDoc.deliveredAt = orderDoc.deliveredAt
+    ? JSON.stringify(orderDoc.deliveredAt)
+    : null;
+  orderDoc.orderItems = orderDoc.orderItems.map((x) => ({
+    ...x,
+    _id: x._id.toString(),
+  }));
+  return orderDoc;
+}
+
+const db = { connect, disconnect, convertDocToObj, convertOrderDocToObj };
 export default db;
