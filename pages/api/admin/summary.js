@@ -2,12 +2,12 @@ import nc from "next-connect";
 import db from "../../../utils/db";
 import Order from "../../../models/Order";
 import { onError } from "../../../utils/error";
-import { isAuth } from "../../../utils/auth";
+import { isAdmin, isAuth } from "../../../utils/auth";
 import Product from "../../../models/Product";
 import User from "../../../models/User";
 
 const handler = nc({ onError });
-handler.use(isAuth);
+handler.use(isAuth, isAdmin);
 handler.get(async (req, res) => {
   await db.connect();
   const ordersCount = await Order.countDocuments();
@@ -30,12 +30,12 @@ handler.get(async (req, res) => {
   const salesData = await Order.aggregate([
     {
       $group: {
-        _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-        totalSales: { $sum: '$totalPrice' },
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+        totalSales: { $sum: "$totalPrice" },
       },
     },
   ]);
-  res.send({ ordersCount, productsCount, usersCount, ordersPrice ,salesData});
+  res.send({ ordersCount, productsCount, usersCount, ordersPrice, salesData });
 });
 
 export default handler;
