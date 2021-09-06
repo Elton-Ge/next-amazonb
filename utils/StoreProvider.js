@@ -72,6 +72,7 @@ const reducer = (state, action) => {
           ...state.cart,
           loadingPay: false,
           successPay: true,
+          //pay order is not necessary for this case since we get refresh data from router.replace(router.asPath) , instead of useReduce
           order: action.payload,
         },
       };
@@ -90,8 +91,46 @@ const reducer = (state, action) => {
         cart: {
           ...state.cart,
           loadingPay: false,
-          successPay:false,
-          error: '',
+          successPay: false,
+          error: "",
+        },
+      };
+    case "DELIVERED_REQUEST":
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loadingDelivered: true,
+        },
+      };
+    case "DELIVERED_SUCCESS":
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loadingDelivered: false,
+          successDelivered: true,
+          //pay order is not necessary for this case since we get refresh data from router.replace(router.asPath) , instead of useReduce
+          order: action.payload,
+        },
+      };
+    case "DELIVERED_FAIL":
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loadingDelivered: false,
+          error: action.payload,
+        },
+      };
+    case "DELIVERED_RESET":
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loadingDelivered: false,
+          successDelivered: false,
+          error: "",
         },
       };
     case "USER_LOGIN":
