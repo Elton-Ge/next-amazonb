@@ -49,7 +49,7 @@ function AdminProducts() {
     products: [],
     error: "",
   });
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (!userInfo) {

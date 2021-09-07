@@ -18,7 +18,7 @@ import {
 import { useSnackbar } from "notistack";
 import dynamic from "next/dynamic";
 
-function PaymentScreen(props) {
+function PaymentScreen() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const classes = useStyles();
   const router = useRouter();

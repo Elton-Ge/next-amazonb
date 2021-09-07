@@ -22,7 +22,7 @@ import { useSnackbar } from "notistack";
 import { getError } from "../../../utils/error";
 
 function ProductCreate() {
-  const { state, dispatch } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const router = useRouter();
   const classes = useStyles();
   const { userInfo } = state;
@@ -89,7 +89,7 @@ function ProductCreate() {
       return;
     }
     try {
-      const { data } = await axios.post(
+       await axios.post(
         `/api/admin/product/`,
         {
           name,

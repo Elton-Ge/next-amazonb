@@ -24,7 +24,7 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-function CartScreen(props) {
+function CartScreen() {
   const router = useRouter();
   const { state, dispatch } = useContext(StoreContext);
   const {

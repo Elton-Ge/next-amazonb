@@ -17,7 +17,7 @@ import Cookies from "js-cookie";
 import { Controller, useForm } from "react-hook-form";
 import { useSnackbar } from "notistack";
 
-function RegisterScreen(props) {
+function RegisterScreen() {
   const {
     control,
     handleSubmit,

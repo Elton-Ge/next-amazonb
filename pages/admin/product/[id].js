@@ -24,7 +24,7 @@ import Product from "../../../models/Product";
 import db from "../../../utils/db";
 
 function ProductEdit({ product }) {
-  const { state, dispatch } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const router = useRouter();
   const classes = useStyles();
   const { userInfo } = state;
@@ -89,7 +89,7 @@ function ProductEdit({ product }) {
     closeSnackbar();
 
     try {
-      const { data } = await axios.put(
+     await axios.put(
         `/api/admin/product/${product._id}`,
         {
           name,

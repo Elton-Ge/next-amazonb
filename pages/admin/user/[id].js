@@ -22,10 +22,9 @@ import { useSnackbar } from "notistack";
 import { getError } from "../../../utils/error";
 import User from "../../../models/User";
 import db from "../../../utils/db";
-import { isAdmin } from "../../../utils/auth";
 
 function UserEdit({ user }) {
-  const { state, dispatch } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const router = useRouter();
   const classes = useStyles();
   const { userInfo } = state;
@@ -64,7 +63,7 @@ function UserEdit({ user }) {
     }
     closeSnackbar();
     try {
-      const { data } = await axios.put(
+     await axios.put(
         `/api/admin/user/${user._id}`,
         {
           name,

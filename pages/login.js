@@ -17,7 +17,7 @@ import Cookies from "js-cookie";
 import { Controller, useForm } from "react-hook-form";
 import { useSnackbar } from "notistack";
 
-function LoginScreen(props) {
+function LoginScreen() {
   const {
     control,
     handleSubmit,
@@ -130,7 +130,7 @@ function LoginScreen(props) {
             </Button>
           </ListItem>
           <ListItem>
-            Don't have an account? &nbsp;
+            Don`&apos;`t have an account? &nbsp;
             <NextLink href={`/register?redirect=${redirect || "/"}`} passHref>
               <Link>Register</Link>
             </NextLink>

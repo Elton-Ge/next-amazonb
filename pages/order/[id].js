@@ -37,7 +37,7 @@ function OrderScreen({ order }) {
   const router = useRouter();
   // console.log(router.query)
   const { state, dispatch } = useContext(StoreContext);
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const {
     userInfo,
     cart: { successPay },

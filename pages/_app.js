@@ -1,8 +1,8 @@
-import "../styles/globals.css";
 import { useEffect } from "react";
 import StoreProvider from "../utils/StoreProvider";
 import { SnackbarProvider } from "notistack";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {

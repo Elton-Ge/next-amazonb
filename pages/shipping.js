@@ -15,7 +15,7 @@ import { Controller, useForm } from "react-hook-form";
 import CheckoutWizard from "../components/CheckoutWizard";
 import dynamic from "next/dynamic";
 
-function ShippingScreen(props) {
+function ShippingScreen() {
   const {
     control,
     handleSubmit,

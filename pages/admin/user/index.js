@@ -22,7 +22,7 @@ import { useSnackbar } from "notistack";
 import { getError } from "../../../utils/error";
 
 function UserCreate() {
-  const { state, dispatch } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const router = useRouter();
   const classes = useStyles();
   const { userInfo } = state;

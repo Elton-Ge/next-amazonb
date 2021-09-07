@@ -49,7 +49,7 @@ function AdminUsers() {
     users: [],
     error: "",
   });
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (!userInfo) {

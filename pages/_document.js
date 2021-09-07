@@ -1,23 +1,22 @@
-import { ServerStyleSheets } from "@material-ui/core/styles";
-import Document, { Head, Html, Main, NextScript } from "next/document";
-import React from "react";
+import { ServerStyleSheets } from '@material-ui/core/styles';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
+import React from 'react';
 
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en">
-        <Head>
-          <link rel="icon" href="/favicon.ico" />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-          />
-        </Head>
-        <body>
+        <Html lang="en">
+          <Head>
+            <link
+                rel="stylesheet"
+                href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            />
+          </Head>
+          <body>
           <Main />
           <NextScript />
-        </body>
-      </Html>
+          </body>
+        </Html>
     );
   }
 }
@@ -27,6 +26,7 @@ MyDocument.getInitialProps = async (ctx) => {
   const originalRenderPage = ctx.renderPage;
   ctx.renderPage = () => {
     return originalRenderPage({
+      // eslint-disable-next-line react/display-name
       enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
     });
   };
