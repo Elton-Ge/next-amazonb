@@ -19,7 +19,7 @@ import Product from "../../models/Product";
 import { StoreContext } from "../../utils/StoreProvider";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Rating from "@material-ui/lab/rating";
+import Rating from "@material-ui/lab/Rating";
 import { useSnackbar } from "notistack";
 import { getError } from "../../utils/error";
 
