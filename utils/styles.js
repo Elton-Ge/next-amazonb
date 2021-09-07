@@ -39,7 +39,8 @@ const useStyles = makeStyles({
   fullWidth: {
     width: "100%",
   },
-  images: { // fix ratio
+  images: {
+    // fix ratio
     width: "100%",
     height: 400,
     objectFit: "cover",

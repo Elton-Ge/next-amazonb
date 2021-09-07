@@ -2,14 +2,15 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Button,
   Card,
   Grid,
   List,
   ListItem,
-  ListItemText, MenuItem,
+  ListItemText,
+  MenuItem,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -21,7 +22,7 @@ import { useSnackbar } from "notistack";
 import { getError } from "../../../utils/error";
 import User from "../../../models/User";
 import db from "../../../utils/db";
-import {isAdmin} from "../../../utils/auth";
+import { isAdmin } from "../../../utils/auth";
 
 function UserEdit({ user }) {
   const { state, dispatch } = useContext(StoreContext);
@@ -48,7 +49,13 @@ function UserEdit({ user }) {
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const submitHandler = async ({ name, email, password, confirmPassword,isAdmin }) => {
+  const submitHandler = async ({
+    name,
+    email,
+    password,
+    confirmPassword,
+    isAdmin,
+  }) => {
     if (password !== confirmPassword) {
       enqueueSnackbar("password and confirmPassword are not match", {
         variant: "error",
@@ -63,7 +70,7 @@ function UserEdit({ user }) {
           name,
           email,
           password,
-          isAdmin
+          isAdmin,
         },
         {
           headers: {
@@ -244,22 +251,22 @@ function UserEdit({ user }) {
                     </ListItem>
                     <ListItem>
                       <Controller
-                          name={"isAdmin"}
-                          control={control}
-                          defaultValue={""}
-                          render={({field}) => (
-                              <TextField
-                                  select
-                                  fullWidth
-                                  variant={"outlined"}
-                                  label="isAdmin"
-                                  inputProps={{type: "isAdmin"}}
-                                  {...field}
-                              >
-                                <MenuItem value={true}>Admin</MenuItem>
-                                <MenuItem value={false}>User</MenuItem>
-                              </TextField>
-                          )}
+                        name={"isAdmin"}
+                        control={control}
+                        defaultValue={""}
+                        render={({ field }) => (
+                          <TextField
+                            select
+                            fullWidth
+                            variant={"outlined"}
+                            label="isAdmin"
+                            inputProps={{ type: "isAdmin" }}
+                            {...field}
+                          >
+                            <MenuItem value={true}>Admin</MenuItem>
+                            <MenuItem value={false}>User</MenuItem>
+                          </TextField>
+                        )}
                       />
                     </ListItem>
                     <ListItem>

@@ -166,7 +166,9 @@ function AdminUsers() {
                             <TableCell>{user._id.substring(20, 24)}</TableCell>
                             <TableCell>{user.name}</TableCell>
                             <TableCell>{user.email}</TableCell>
-                            <TableCell>{user.isAdmin?"Admin":"User"}</TableCell>
+                            <TableCell>
+                              {user.isAdmin ? "Admin" : "User"}
+                            </TableCell>
                             {/*<TableCell>{user.password}</TableCell>*/}
                             <TableCell>
                               <NextLink
