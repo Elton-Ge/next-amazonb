@@ -76,18 +76,23 @@ function AdminOrders() {
           <Card className={classes.section}>
             <List>
               <NextLink href="/admin/dashboard" passHref>
-                <ListItem  button component="a">
+                <ListItem button component="a">
                   <ListItemText primary="Admin Dashboard" />
                 </ListItem>
               </NextLink>
               <NextLink href="/admin/orders" passHref>
-                <ListItem  selected button component="a">
+                <ListItem selected button component="a">
                   <ListItemText primary="Orders" />
                 </ListItem>
               </NextLink>
               <NextLink href="/admin/products" passHref>
-                <ListItem   button component="a">
+                <ListItem button component="a">
                   <ListItemText primary="Products" />
+                </ListItem>
+              </NextLink>
+              <NextLink href="/admin/users" passHref>
+                <ListItem button component="a">
+                  <ListItemText primary="Users" />
                 </ListItem>
               </NextLink>
             </List>

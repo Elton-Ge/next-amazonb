@@ -2,7 +2,7 @@ import nc from "next-connect";
 import db from "../../../utils/db";
 import User from "../../../models/User";
 import bcrypt from "bcryptjs";
-import {signToken} from "../../../utils/auth";
+import { signToken } from "../../../utils/auth";
 
 const handler = nc();
 

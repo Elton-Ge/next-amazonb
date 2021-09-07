@@ -13,15 +13,14 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import Layout from "../components/Layout";
-import useStyles from "../utils/styles";
-import { StoreContext } from "../utils/StoreProvider";
+import Layout from "../../../components/Layout";
+import useStyles from "../../../utils/styles";
+import { StoreContext } from "../../../utils/StoreProvider";
 import { Controller, useForm } from "react-hook-form";
-import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
-import { getError } from "../utils/error";
+import { getError } from "../../../utils/error";
 
-function Profile() {
+function UserCreate() {
   const { state, dispatch } = useContext(StoreContext);
   const router = useRouter();
   const classes = useStyles();
@@ -32,33 +31,32 @@ function Profile() {
     formState: { errors },
     setValue,
   } = useForm();
-
   useEffect(() => {
     if (!userInfo) {
       router.push("/login");
       return;
     }
-    setValue("email", userInfo.email);
-    setValue("name", userInfo.name);
+    setValue("name", "user.name");
+    setValue("email", "user.slug");
+    setValue("password", "user.password");
+    setValue("confirmPassword", "user.password");
   }, []);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const submitHandler = async ({ name, email, password, confirmPassword }) => {
     closeSnackbar();
-    if (password !== confirmPassword) {
-      enqueueSnackbar("password and confirmPassword are not match", {
-        variant: "error",
-      });
+    if (!window.confirm("Are you sure?")) {
       return;
     }
     try {
-      const { data } = await axios.put(
-        "/api/users/profile",
+      await axios.post(
+        `/api/admin/user/`,
         {
           name,
           email,
           password,
+          confirmPassword,
         },
         {
           headers: {
@@ -66,10 +64,11 @@ function Profile() {
           },
         }
       );
-      dispatch({ type: "USER_LOGIN", payload: data });
-      Cookies.set("userInfo", JSON.stringify(data));
+      // dispatch({type: "USER_LOGIN", payload: data});
+      // Cookies.set("userInfo", JSON.stringify(data));
       // console.log(data);
       enqueueSnackbar("Successfully Updated Profile", { variant: "success" });
+      router.push("/admin/users");
     } catch (error) {
       enqueueSnackbar(getError(error), { variant: "error" });
     }
@@ -81,14 +80,24 @@ function Profile() {
         <Grid item md={3} xs={12}>
           <Card className={classes.section}>
             <List>
-              <NextLink href="/profile" passHref>
-                <ListItem selected button component="a">
-                  <ListItemText primary="User Profile" />
+              <NextLink href="/admin/dashboard" passHref>
+                <ListItem button component="a">
+                  <ListItemText primary="Admin Dashboard" />
                 </ListItem>
               </NextLink>
-              <NextLink href="/order-history" passHref>
+              <NextLink href="/admin/orders" passHref>
                 <ListItem button component="a">
-                  <ListItemText primary="Order History" />
+                  <ListItemText primary="Orders" />
+                </ListItem>
+              </NextLink>
+              <NextLink href="/admin/products" passHref>
+                <ListItem button component="a">
+                  <ListItemText primary="Products" />
+                </ListItem>
+              </NextLink>
+              <NextLink href="/admin/users" passHref>
+                <ListItem selected button component="a">
+                  <ListItemText primary="Users" />
                 </ListItem>
               </NextLink>
             </List>
@@ -99,7 +108,7 @@ function Profile() {
             <List>
               <ListItem>
                 <Typography component="h1" variant="h1">
-                  Profile
+                  Create User
                 </Typography>
               </ListItem>
               <ListItem>
@@ -248,4 +257,4 @@ function Profile() {
 }
 
 // export default OrderHistory
-export default dynamic(() => Promise.resolve(Profile), { ssr: false });
+export default dynamic(() => Promise.resolve(UserCreate), { ssr: false });

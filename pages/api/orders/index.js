@@ -12,7 +12,7 @@ handler.post(async (req, res) => {
     ...req.body,
     user: req.user._id,
   });
-  const order =await newOrder.save();
+  const order = await newOrder.save();
   // console.log(order)
   res.status(201).send(order);
 });

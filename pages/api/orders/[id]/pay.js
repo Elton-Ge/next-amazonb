@@ -23,8 +23,7 @@ handler.put(async (req, res) => {
     await db.disconnect();
     res.send({ message: "Order Paid", paidOrder });
   } else {
-    res.status(404).send({ message: "Order Not Found" })
-
+    res.status(404).send({ message: "Order Not Found" });
   }
 });
 

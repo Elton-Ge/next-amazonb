@@ -1,13 +1,13 @@
 import nc from "next-connect";
 import db from "../../../../utils/db";
 import { onError } from "../../../../utils/error";
-import {isAdmin, isAuth} from "../../../../utils/auth";
+import { isAdmin, isAuth } from "../../../../utils/auth";
 import Order from "../../../../models/Order";
 
 const handler = nc({
   onError,
 });
-handler.use(isAuth,isAdmin);
+handler.use(isAuth, isAdmin);
 handler.put(async (req, res) => {
   await db.connect();
   const order = await Order.findById(req.query.id);

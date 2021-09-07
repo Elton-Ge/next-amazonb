@@ -8,7 +8,7 @@ const handler = nc({ onError });
 handler.use(isAuth, isAdmin);
 handler.post(async (req, res) => {
   await db.connect();
-  const product =new Product({
+  const product = new Product({
     name: req.body.name,
     slug: req.body.slug,
     price: req.body.price,
@@ -19,10 +19,9 @@ handler.post(async (req, res) => {
     description: req.body.description,
   });
 
-    const newProduct = await product.save();
-    await db.disconnect();
-    res.send({ newProduct, message: "Product updated successfully" });
-
+  const newProduct = await product.save();
+  await db.disconnect();
+  res.send({ newProduct, message: "Product updated successfully" });
 });
 
 export default handler;

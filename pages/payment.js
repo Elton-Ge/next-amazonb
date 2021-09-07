@@ -104,5 +104,4 @@ function PaymentScreen(props) {
 }
 
 // export default PaymentScreen;
-export default dynamic(() => Promise.resolve(PaymentScreen), {ssr: false});
-
+export default dynamic(() => Promise.resolve(PaymentScreen), { ssr: false });

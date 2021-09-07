@@ -55,7 +55,7 @@ function OrderScreen({ order }) {
     isDelivered,
     deliveredAt,
     successDelivered,
-    loadingDelivered
+    loadingDelivered,
   } = order;
 
   useEffect(() => {

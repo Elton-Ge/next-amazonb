@@ -27,8 +27,8 @@ handler.put(async (req, res) => {
   }
 });
 handler.delete(async (req, res) => {
-  await db.connect()
-  await Product.deleteOne({_id:req.query.id})
-  res.send({  message: "Product delete successfully" })
-})
+  await db.connect();
+  await Product.deleteOne({ _id: req.query.id });
+  res.send({ message: "Product delete successfully" });
+});
 export default handler;
