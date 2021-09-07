@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     margin: "10px auto",
   },
   form: {
-    width:'100%',
+    width: "100%",
     maxWidth: 800,
     margin: "0 auto",
   },
@@ -37,8 +37,13 @@ const useStyles = makeStyles({
     backgroundColor: "transparent",
   },
   fullWidth: {
-    width:'100%',
-  }
+    width: "100%",
+  },
+  images: { // fix ratio
+    width: "100%",
+    height: 400,
+    objectFit: "cover",
+  },
 });
 
 export default useStyles;

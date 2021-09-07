@@ -30,7 +30,7 @@ function reducer(state, action) {
         case "FETCH_REQUEST":
             return {...state, loading: true, error: ""};
         case "FETCH_SUCCESS":
-            return {...state, loading: false, products: action.payload, error: ""};
+            return {...state, loading: false, users: action.payload, error: ""};
         case "FETCH_FAIL":
             return {...state, loading: false, error: action.payload};
         default:
@@ -38,15 +38,15 @@ function reducer(state, action) {
     }
 }
 
-function AdminProducts() {
+function AdminUsers() {
     const {state} = useContext(StoreContext);
     const router = useRouter();
     const classes = useStyles();
     const {userInfo} = state;
     const [deleted, setDeleted] = useState(false);
-    const [{loading, error, products}, dispatch] = useReducer(reducer, {
+    const [{loading, error, users}, dispatch] = useReducer(reducer, {
         loading: true,
-        products: [],
+        users: [],
         error: "",
     });
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
@@ -59,7 +59,7 @@ function AdminProducts() {
         const fetchData = async () => {
             try {
                 dispatch({type: "FETCH_REQUEST"});
-                const {data} = await axios.get(`/api/admin/products`, {
+                const {data} = await axios.get(`/api/admin/users`, {
                     headers: {authorization: `Bearer ${userInfo.token}`},
                 });
                 // console.log(data);
@@ -82,7 +82,7 @@ function AdminProducts() {
         }
         try {
             await axios.delete(
-                `/api/admin/product/${pid}`,
+                `/api/admin/user/${pid}`,
                 {
                     headers: {
                         authorization: `Bearer ${userInfo.token}`,
@@ -112,9 +112,9 @@ function AdminProducts() {
                                     <ListItemText primary="Orders"/>
                                 </ListItem>
                             </NextLink>
-                            <NextLink href="/admin/products" passHref>
+                            <NextLink href="/admin/users" passHref>
                                 <ListItem selected button component="a">
-                                    <ListItemText primary="Products"/>
+                                    <ListItemText primary="Users"/>
                                 </ListItem>
                             </NextLink>
                         </List>
@@ -127,12 +127,13 @@ function AdminProducts() {
                                 <Grid container alignItems={"center"}>
                                     <Grid item xs={12} md={6}>
                                         <Typography component="h1" variant="h1">
-                                            Products
+                                            Users
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} md={6} align="right">
                                         <Button color="primary" variant={"contained"}
-                                                onClick={() => router.push("/admin/product")}>
+                                                onClick={() => router.push("/admin/user")
+                                                }>
                                             Create
                                         </Button>
                                     </Grid>
@@ -158,27 +159,27 @@ function AdminProducts() {
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                                {products.map((product) => (
-                                                    <TableRow key={product._id}>
-                                                        <TableCell>{product._id.substring(20, 24)}</TableCell>
+                                                {users.map((user) => (
+                                                    <TableRow key={user._id}>
+                                                        <TableCell>{user._id.substring(20, 24)}</TableCell>
                                                         <TableCell>
-                                                            {product.name}
+                                                            {user.name}
                                                         </TableCell>
                                                         <TableCell>
-                                                            ${product.price}
+                                                            ${user.price}
                                                         </TableCell>
-                                                        <TableCell>{product.category}</TableCell>
-                                                        <TableCell>{product.countInStock}</TableCell>
+                                                        <TableCell>{user.category}</TableCell>
+                                                        <TableCell>{user.countInStock}</TableCell>
                                                         <TableCell>
-                                                            {product.rating}
+                                                            {user.rating}
                                                         </TableCell>
 
                                                         <TableCell>
-                                                            <NextLink href={`/admin/product/${product._id}`} passHref>
+                                                            <NextLink href={`/admin/user/${user._id}`} passHref>
                                                                 <Button size={"small"} variant="contained">Edit</Button>
                                                             </NextLink>
                                                             <Button size={"small"} variant="contained"
-                                                                    onClick={() => deleteHandler(product._id)}>Delete</Button>
+                                                                    onClick={() => deleteHandler(user._id)}>Delete</Button>
                                                         </TableCell>
                                                     </TableRow>
                                                 ))}
@@ -195,5 +196,5 @@ function AdminProducts() {
     );
 }
 
-// export default ProductHistory
-export default dynamic(() => Promise.resolve(AdminProducts), {ssr: false});
+// export default UserHistory
+export default dynamic(() => Promise.resolve(AdminUsers), {ssr: false});

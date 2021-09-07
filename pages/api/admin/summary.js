@@ -23,7 +23,7 @@ handler.get(async (req, res) => {
       },
     },
   ]);
-  console.log(ordersPriceGroup);
+  // console.log(ordersPriceGroup);
   const ordersPrice =
     ordersPriceGroup.length > 0 ? ordersPriceGroup[0].sales : 0;
 
@@ -35,6 +35,7 @@ handler.get(async (req, res) => {
       },
     },
   ]);
+  // console.log(salesData);
   await db.disconnect();
   res.send({ ordersCount, productsCount, usersCount, ordersPrice, salesData });
 });

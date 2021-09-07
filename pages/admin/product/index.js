@@ -20,10 +20,8 @@ import {StoreContext} from "../../../utils/StoreProvider";
 import {Controller, useForm} from "react-hook-form";
 import {useSnackbar} from "notistack";
 import {getError} from "../../../utils/error";
-import Product from "../../../models/Product";
-import db from "../../../utils/db";
 
-function ProductEdit({product}) {
+function ProductCreate() {
     const {state, dispatch} = useContext(StoreContext);
     const router = useRouter();
     const classes = useStyles();
@@ -40,14 +38,14 @@ function ProductEdit({product}) {
             router.push("/login");
             return;
         }
-        setValue("name", product.name);
-        setValue("slug", product.slug);
-        setValue("price", product.price);
-        setValue("image", product.image);
-        setValue("category", product.category);
-        setValue("brand", product.brand);
-        setValue("countInStock", product.countInStock);
-        setValue("description", product.description);
+        setValue("name", "product.name");
+        setValue("slug", "product.slug");
+        setValue("price", 123);
+        setValue("image", "product.image");
+        setValue("category", "product.category");
+        setValue("brand", "product.brand");
+        setValue("countInStock", 77);
+        setValue("description", "product.description");
     }, []);
 
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
@@ -87,10 +85,12 @@ function ProductEdit({product}) {
                                      description,
                                  }) => {
         closeSnackbar();
-
+        if (!window.confirm("Are you sure?")){
+            return;
+        }
         try {
-            const {data} = await axios.put(
-                `/api/admin/product/${product._id}`,
+            const {data} = await axios.post(
+                `/api/admin/product/`,
                 {
                     name,
                     slug,
@@ -146,7 +146,7 @@ function ProductEdit({product}) {
                         <List>
                             <ListItem>
                                 <Typography component="h1" variant="h1">
-                                    Edit Product {product._id}
+                                    Create Product
                                 </Typography>
                             </ListItem>
                             <ListItem>
@@ -357,7 +357,7 @@ function ProductEdit({product}) {
                                                 fullWidth
                                                 variant={"contained"}
                                             >
-                                                Update
+                                                Create
                                             </Button>
                                         </ListItem>
                                     </List>
@@ -371,19 +371,6 @@ function ProductEdit({product}) {
     );
 }
 
-export async function getServerSideProps(context) {
-    //getStaticProps   getServerSideProps
-    const {params} = context;
-    const {id} = params;
-    await db.connect();
-    const product = await Product.findById(id).lean();
-    await db.disconnect();
-    return {
-        props: {
-            product: db.convertDocToObj(product),
-        },
-    };
-}
 
 // export default OrderHistory
-export default dynamic(() => Promise.resolve(ProductEdit), {ssr: false});
+export default dynamic(() => Promise.resolve(ProductCreate), {ssr: false});

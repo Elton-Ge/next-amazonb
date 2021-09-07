@@ -192,11 +192,11 @@ function AdminDashboard() {
                                                 backgroundColor: 'rgba(162, 222, 208, 1)',
                                                 data: summary.salesData?.map((x) => x.totalSales),
                                             },
-                                            {
-                                                label: "products",
-                                                backgroundColor: 'rgba(162, 222, 108, 1)',
-                                                data: [1234,677]
-                                            }
+                                            // {
+                                            //     label: "products",
+                                            //     backgroundColor: 'rgba(162, 222, 108, 1)',
+                                            //     data: [1234,677]
+                                            // }
                                         ],
                                     }}
                                     options={{
