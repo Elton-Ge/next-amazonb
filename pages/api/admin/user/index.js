@@ -13,7 +13,7 @@ handler.post(async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
-    isAdmin: false,
+    isAdmin: req.body.isAdmin,
   });
 
   const newUser = await user.save();

@@ -16,6 +16,7 @@ handler.put(async (req, res) => {
     user.password = req.body.password
       ? bcrypt.hashSync(req.body.password, 8)
       : user.password;
+    user.isAdmin = req.body.isAdmin;
     await user.save();
     await db.disconnect();
     res.send({ message: "User updated successfully" });

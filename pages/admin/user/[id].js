@@ -9,7 +9,7 @@ import {
   Grid,
   List,
   ListItem,
-  ListItemText,
+  ListItemText, MenuItem,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -21,6 +21,7 @@ import { useSnackbar } from "notistack";
 import { getError } from "../../../utils/error";
 import User from "../../../models/User";
 import db from "../../../utils/db";
+import {isAdmin} from "../../../utils/auth";
 
 function UserEdit({ user }) {
   const { state, dispatch } = useContext(StoreContext);
@@ -33,7 +34,6 @@ function UserEdit({ user }) {
     formState: { errors },
     setValue,
   } = useForm();
-  const [loadingUpload, setLoadingUpload] = useState(false);
   useEffect(() => {
     if (!userInfo) {
       router.push("/login");
@@ -43,11 +43,12 @@ function UserEdit({ user }) {
     setValue("email", user.email);
     setValue("password", user.password);
     setValue("confirmPassword", user.password);
+    setValue("isAdmin", user.isAdmin);
   }, []);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const submitHandler = async ({ name, email, password, confirmPassword }) => {
+  const submitHandler = async ({ name, email, password, confirmPassword,isAdmin }) => {
     if (password !== confirmPassword) {
       enqueueSnackbar("password and confirmPassword are not match", {
         variant: "error",
@@ -62,6 +63,7 @@ function UserEdit({ user }) {
           name,
           email,
           password,
+          isAdmin
         },
         {
           headers: {
@@ -238,6 +240,26 @@ function UserEdit({ user }) {
                             {...field}
                           />
                         )}
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <Controller
+                          name={"isAdmin"}
+                          control={control}
+                          defaultValue={""}
+                          render={({field}) => (
+                              <TextField
+                                  select
+                                  fullWidth
+                                  variant={"outlined"}
+                                  label="isAdmin"
+                                  inputProps={{type: "isAdmin"}}
+                                  {...field}
+                              >
+                                <MenuItem value={true}>Admin</MenuItem>
+                                <MenuItem value={false}>User</MenuItem>
+                              </TextField>
+                          )}
                       />
                     </ListItem>
                     <ListItem>
