@@ -126,6 +126,7 @@ function ProductScreen(props) {
     </Layout>
   );
 }
+/*
 
 export async function getStaticPaths() {
   await db.connect();
@@ -153,8 +154,8 @@ export async function getStaticProps(context) {
     },
   };
 }
+*/
 
-/*
 export async function getServerSideProps(context) {
   //getStaticProps   getServerSideProps
   const { params } = context;
@@ -168,7 +169,6 @@ export async function getServerSideProps(context) {
     },
   };
 }
-*/
 
 // Home page and main page need to SSR render since for SEO
 export default ProductScreen;
