@@ -89,7 +89,7 @@ function ProductEdit({ product }) {
     closeSnackbar();
 
     try {
-     await axios.put(
+      await axios.put(
         `/api/admin/product/${product._id}`,
         {
           name,

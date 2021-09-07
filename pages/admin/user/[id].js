@@ -63,7 +63,7 @@ function UserEdit({ user }) {
     }
     closeSnackbar();
     try {
-     await axios.put(
+      await axios.put(
         `/api/admin/user/${user._id}`,
         {
           name,

@@ -89,7 +89,7 @@ function ProductCreate() {
       return;
     }
     try {
-       await axios.post(
+      await axios.post(
         `/api/admin/product/`,
         {
           name,

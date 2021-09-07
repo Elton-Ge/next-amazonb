@@ -1,14 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import NextLink from "next/link";
 import Image from "next/image";
 import Layout from "../../components/Layout";
 import {
   Button,
   Card,
+  CircularProgress,
   Grid,
   Link,
   List,
   ListItem,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import useStyles from "../../utils/styles";
@@ -17,17 +19,66 @@ import Product from "../../models/Product";
 import { StoreContext } from "../../utils/StoreProvider";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Rating from "@material-ui/lab/rating";
+import { useSnackbar } from "notistack";
+import { getError } from "../../utils/error";
 
 function ProductScreen(props) {
   const { state, dispatch } = useContext(StoreContext);
+  const { userInfo } = state;
   const classes = useStyles();
   const router = useRouter(); //next/router
+  const { enqueueSnackbar } = useSnackbar();
+  const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+  const fetchReviews = async () => {
+    try {
+      const { data } = await axios.get(`/api/products/${product._id}/reviews`);
+      setReviews(data);
+    } catch (err) {
+      enqueueSnackbar(getError(err), { variant: "error" });
+    }
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setComment("");
+    setRating(0);
+    try {
+      await axios.post(
+        `/api/products/${product._id}/reviews`,
+        {
+          rating,
+          comment,
+        },
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      setLoading(false);
+      enqueueSnackbar("Review submitted successfully", { variant: "success" });
+      router.replace(router.asPath, router.asPath, {
+        scroll: false,
+      }); //refresh data
+      fetchReviews();
+    } catch (err) {
+      setLoading(false);
+      enqueueSnackbar(getError(err), { variant: "error" });
+    }
+  };
+  useEffect(() => {
+    fetchReviews();
+  }, []);
   // const { slug } = router.query;
   // const product = data.products.find((x) => x.slug === slug);
   const { product } = props;
   if (!product) {
     return <div>Product Not Found</div>;
   }
+
   const addToCartHandler = async () => {
     const existingItem = state.cart.cartItems.find(
       (x) => x._id === product._id
@@ -75,9 +126,10 @@ function ProductScreen(props) {
               <Typography>Brand: {product.brand}</Typography>
             </ListItem>
             <ListItem>
-              <Typography>
-                Rating: {product.rating} starts ({product.numReviews} reviews)
-              </Typography>
+              <Rating value={product.rating} readOnly />
+              <Link href={"#reviews"}>
+                <Typography>({product.numReviews} reviews)</Typography>
+              </Link>
             </ListItem>
             <ListItem>
               <Typography> Description:{product.description}</Typography>
@@ -122,11 +174,83 @@ function ProductScreen(props) {
             </List>
           </Card>
         </Grid>
+        <List>
+          <ListItem>
+            <Typography name={"reviews"} id={"reviews"} variant="h2">
+              Customer Reviews
+            </Typography>
+          </ListItem>
+          {reviews.length === 0 && <ListItem>No Reviews</ListItem>}
+        </List>
+        {reviews.map((review) => (
+          <ListItem key={review._id}>
+            <Grid container>
+              <Grid item className={classes.reviewItem}>
+                <Typography>
+                  <strong>{review.name}</strong>
+                </Typography>
+                <Typography>{review.createdAt.substring(0, 10)}</Typography>
+              </Grid>
+              <Grid item>
+                <Rating value={review.rating} readOnly />
+                <Typography>{review.comment}</Typography>
+              </Grid>
+            </Grid>
+          </ListItem>
+        ))}
+        <ListItem>
+          {userInfo ? (
+            <form onSubmit={submitHandler} className={classes.reviewForm}>
+              <List>
+                <ListItem>
+                  <Typography variant="h2">Leave your review</Typography>
+                </ListItem>
+                <ListItem>
+                  <TextField
+                    multiline
+                    variant="outlined"
+                    fullWidth
+                    name="review"
+                    label="Enter comment"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                </ListItem>
+                <ListItem>
+                  <Rating
+                    name="simple-controlled"
+                    value={rating}
+                    onChange={(e) => setRating(e.target.value)}
+                  />
+                </ListItem>
+                <ListItem>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                  >
+                    Submit
+                  </Button>
+
+                  {loading && <CircularProgress />}
+                </ListItem>
+              </List>
+            </form>
+          ) : (
+            <Typography variant="h2">
+              Please{" "}
+              <Link href={`/login?redirect=/product/${product.slug}`}>
+                login
+              </Link>{" "}
+              to write a review
+            </Typography>
+          )}
+        </ListItem>
       </Grid>
     </Layout>
   );
 }
-
 
 export async function getStaticPaths() {
   await db.connect();
@@ -146,7 +270,8 @@ export async function getStaticProps(context) {
   const { params } = context;
   const { slug } = params;
   await db.connect();
-  const product = await Product.findOne({ slug }).lean();
+  const product = await Product.findOne({ slug }, "-reviews").lean(); //do not get reviews at the beginning.
+  console.log(product);
   await db.disconnect();
   return {
     props: {
@@ -154,7 +279,6 @@ export async function getStaticProps(context) {
     },
   };
 }
-
 
 // export async function getServerSideProps(context) {
 //   //getStaticProps   getServerSideProps

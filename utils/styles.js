@@ -45,6 +45,15 @@ const useStyles = makeStyles({
     height: 400,
     objectFit: "cover",
   },
+  reviewForm: {
+    width: "100%",
+    maxWidth: 800,
+  },
+  reviewItem: {
+    marginRight:16,
+    borderRight: '1px solid #ccc',
+    paddingRight:16
+  },
 });
 
 export default useStyles;
