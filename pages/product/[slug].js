@@ -252,6 +252,7 @@ function ProductScreen(props) {
   );
 }
 
+/*
 export async function getStaticPaths() {
   await db.connect();
   const products = await Product.find({}).lean();
@@ -277,21 +278,21 @@ export async function getStaticProps(context) {
       product: db.convertDocToObj(product),
     },
   };
-}
+}*/
 
-// export async function getServerSideProps(context) {
-//   //getStaticProps   getServerSideProps
-//   const { params } = context;
-//   const { slug } = params;
-//   await db.connect();
-//   const product = await Product.findOne({ slug }).lean();
-//   await db.disconnect();
-//   return {
-//     props: {
-//       product: db.convertDocToObj(product),
-//     },
-//   };
-// }
+export async function getServerSideProps(context) {
+  //getStaticProps   getServerSideProps
+  const { params } = context;
+  const { slug } = params;
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+  return {
+    props: {
+      product: db.convertDocToObj(product),
+    },
+  };
+}
 
 // Home page and main page need to SSR render since for SEO
 export default ProductScreen;
