@@ -6,7 +6,9 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Card,
+  Checkbox,
   CircularProgress,
+  FormControlLabel,
   Grid,
   List,
   ListItem,
@@ -44,6 +46,8 @@ function ProductEdit({ product }) {
     setValue("slug", product.slug);
     setValue("price", product.price);
     setValue("image", product.image);
+    setIsFeatured(product.isFeatured);
+    setValue("featuredImage", product.featuredImage);
     setValue("category", product.category);
     setValue("brand", product.brand);
     setValue("countInStock", product.countInStock);
@@ -85,9 +89,9 @@ function ProductEdit({ product }) {
     brand,
     countInStock,
     description,
+    featuredImage,
   }) => {
     closeSnackbar();
-
     try {
       await axios.put(
         `/api/admin/product/${product._id}`,
@@ -100,6 +104,8 @@ function ProductEdit({ product }) {
           brand,
           countInStock,
           description,
+          isFeatured,
+          featuredImage,
         },
         {
           headers: {
@@ -116,7 +122,7 @@ function ProductEdit({ product }) {
       enqueueSnackbar(getError(error), { variant: "error" });
     }
   };
-
+  const [isFeatured, setIsFeatured] = useState(false);
   return (
     <Layout title="Profile">
       <Grid container spacing={1}>
@@ -169,7 +175,6 @@ function ProductEdit({ product }) {
                             variant={"outlined"}
                             id="name"
                             label="Name"
-                            inputProps={{ type: "name" }}
                             error={Boolean(errors.name)}
                             helperText={errors.name ? "Name is required" : ""}
                             {...field}
@@ -191,7 +196,6 @@ function ProductEdit({ product }) {
                             variant={"outlined"}
                             id="slug"
                             label="Slug"
-                            inputProps={{ type: "slug" }}
                             error={Boolean(errors.slug)}
                             helperText={errors.slug ? "Slug is required" : ""}
                             {...field}
@@ -213,7 +217,6 @@ function ProductEdit({ product }) {
                             variant={"outlined"}
                             id="price"
                             label="Price"
-                            inputProps={{ type: "price" }}
                             error={Boolean(errors.price)}
                             helperText={errors.price ? "Price is required" : ""}
                             {...field}
@@ -235,7 +238,6 @@ function ProductEdit({ product }) {
                             variant={"outlined"}
                             id="image"
                             label="Image"
-                            inputProps={{ type: "image" }}
                             error={Boolean(errors.image)}
                             helperText={errors.image ? "Image is required" : ""}
                             {...field}
@@ -247,6 +249,52 @@ function ProductEdit({ product }) {
                       <Button variant={"contained"} component="label">
                         Upload File
                         <input type="file" hidden onChange={uploadHandler} />
+                      </Button>
+                      {loadingUpload && <CircularProgress />}
+                    </ListItem>
+                    <ListItem>
+                      <FormControlLabel
+                        label={"is Featured"}
+                        control={
+                          <Checkbox
+                            onClick={(e) => setIsFeatured(e.target.checked)}
+                            checked={isFeatured}
+                            name={"isFeatured"}
+                          />
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <Controller
+                        name={"featuredImage"}
+                        control={control}
+                        defaultValue={""}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <TextField
+                            fullWidth
+                            variant={"outlined"}
+                            id="featuredImage"
+                            label="Featured Image"
+                            error={Boolean(errors.image)}
+                            helperText={
+                              errors.image ? "Featured Image is required" : ""
+                            }
+                            {...field}
+                          />
+                        )}
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <Button variant={"contained"} component="label">
+                        Upload File
+                        <input
+                          type="file"
+                          hidden
+                          onChange={(e) => uploadHandler(e, "featuredImage")}
+                        />
                       </Button>
                       {loadingUpload && <CircularProgress />}
                     </ListItem>
@@ -264,7 +312,6 @@ function ProductEdit({ product }) {
                             variant={"outlined"}
                             id="category"
                             label="Category"
-                            inputProps={{ type: "category" }}
                             error={Boolean(errors.category)}
                             helperText={
                               errors.category ? "Category is required" : ""
@@ -288,7 +335,6 @@ function ProductEdit({ product }) {
                             variant={"outlined"}
                             id="brand"
                             label="Brand"
-                            inputProps={{ type: "brand" }}
                             error={Boolean(errors.brand)}
                             helperText={errors.brand ? "Brand is required" : ""}
                             {...field}
@@ -310,7 +356,6 @@ function ProductEdit({ product }) {
                             variant={"outlined"}
                             id="countInStock"
                             label="CountInStock"
-                            inputProps={{ type: "countInStock" }}
                             error={Boolean(errors.countInStock)}
                             helperText={
                               errors.countInStock
@@ -337,7 +382,6 @@ function ProductEdit({ product }) {
                             multiline
                             id="description"
                             label="Description"
-                            inputProps={{ type: "description" }}
                             error={Boolean(errors.description)}
                             helperText={
                               errors.description

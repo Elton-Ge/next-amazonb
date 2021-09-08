@@ -83,7 +83,6 @@ function RegisterScreen() {
                   variant={"outlined"}
                   id="name"
                   label="Name"
-                  inputProps={{ type: "name" }}
                   error={Boolean(errors.name)}
                   helperText={
                     errors.name

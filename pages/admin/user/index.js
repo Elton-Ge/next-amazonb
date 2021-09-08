@@ -141,7 +141,6 @@ function UserCreate() {
                             variant={"outlined"}
                             id="name"
                             label="Name"
-                            inputProps={{ type: "name" }}
                             error={Boolean(errors.name)}
                             helperText={
                               errors.name
@@ -255,7 +254,6 @@ function UserCreate() {
                             fullWidth
                             variant={"outlined"}
                             label="isAdmin"
-                            inputProps={{ type: "isAdmin" }}
                             {...field}
                           >
                             <MenuItem value={true}>Admin</MenuItem>

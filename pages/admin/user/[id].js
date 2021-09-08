@@ -145,7 +145,6 @@ function UserEdit({ user }) {
                             variant={"outlined"}
                             id="name"
                             label="Name"
-                            inputProps={{ type: "name" }}
                             error={Boolean(errors.name)}
                             helperText={
                               errors.name
@@ -259,7 +258,6 @@ function UserEdit({ user }) {
                             fullWidth
                             variant={"outlined"}
                             label="isAdmin"
-                            inputProps={{ type: "isAdmin" }}
                             {...field}
                           >
                             <MenuItem value={true}>Admin</MenuItem>
