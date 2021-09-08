@@ -24,7 +24,7 @@ async function connect() {
     },
     () => {
       console.log("new connection");
-      connection.isConnected = mongoose.connections[0].readyState===1;
+      connection.isConnected = mongoose.connections[0].readyState === 1;
     }
   );
 }
