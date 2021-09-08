@@ -18,6 +18,7 @@ import { StoreContext } from "../utils/StoreProvider";
 import { useRouter } from "next/router";
 import useStyles from "../utils/styles";
 import Rating from "@material-ui/lab/Rating";
+import ProductItem from "../components/ProductItem";
 
 function Home(props) {
   const classes = useStyles();
@@ -45,33 +46,7 @@ function Home(props) {
         <Grid container spacing={3}>
           {products.map((product) => (
             <Grid item key={product.name} md={4}>
-              <Card>
-                <NextLink href={`/product/${product.slug}`} passHref>
-                  <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      alt={product.name}
-                      image={product.image}
-                      title={product.name}
-                      className={classes.images}
-                    />
-                    <CardContent>
-                      <Typography>{product.name}</Typography>
-                      <Rating value={product.rating} readOnly />
-                    </CardContent>
-                  </CardActionArea>
-                </NextLink>
-                <CardActions>
-                  <Typography>{product.name}</Typography>
-                  <Button
-                    color={"primary"}
-                    size="small"
-                    onClick={() => addToCartHandler(product)}
-                  >
-                    Add to Cart
-                  </Button>
-                </CardActions>
-              </Card>
+              <ProductItem addToCartHandler={addToCartHandler} product={product}/>
             </Grid>
           ))}
         </Grid>

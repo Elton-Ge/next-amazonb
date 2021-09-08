@@ -271,7 +271,6 @@ export async function getStaticProps(context) {
   const { slug } = params;
   await db.connect();
   const product = await Product.findOne({ slug }, "-reviews").lean(); //do not get reviews at the beginning.
-  console.log(product);
   await db.disconnect();
   return {
     props: {
