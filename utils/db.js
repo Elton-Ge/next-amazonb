@@ -3,25 +3,30 @@ import mongoose from "mongoose";
 const connection = {};
 
 async function connect() {
-  console.log(connection.isConnected);
   if (connection.isConnected) {
     console.log("already connected");
     return;
   }
   if (mongoose.connections.length > 0) {
-    connection.isConnected = mongoose.connections[0].readyState;
-    if (connection.isConnected === 1) {
+    connection.isConnected = mongoose.connections[0].readyState === 1;
+    if (connection.isConnected) {
       console.log("use previous connection");
       return;
     }
     await mongoose.disconnect();
   }
-  const db = await mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  console.log("new connection");
-  connection.isConnected = db.connections[0].readyState;
+  await mongoose.connect(
+    process.env.MONGODB_URI,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      // useCreateIndex: true,
+    },
+    () => {
+      console.log("new connection");
+      connection.isConnected = mongoose.connections[0].readyState===1;
+    }
+  );
 }
 
 async function disconnect() {
@@ -29,7 +34,6 @@ async function disconnect() {
     if (process.env.NODE_ENV === "production") {
       await mongoose.disconnect();
       connection.isConnected = false;
-      console.log("disconnected");
     } else {
       console.log("not disconnected");
     }
