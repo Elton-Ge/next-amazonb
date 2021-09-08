@@ -257,17 +257,17 @@ export async function getServerSideProps({ query }) {
             },
           ],
         }
-       /* {
-          name: {
-            $regex: searchQuery,
-            $options: "i",
-          },
-          description: {
-            $regex: searchQuery,
-            $options: "i",
-          },
-        }*/
-      : {};
+      : /* {
+               name: {
+                 $regex: searchQuery,
+                 $options: "i",
+               },
+               description: {
+                 $regex: searchQuery,
+                 $options: "i",
+               },
+             }*/
+        {};
   const categoryFilter = category && category !== "all" ? { category } : {};
   const brandFilter = brand && brand !== "all" ? { brand } : {};
   const ratingFilter =
